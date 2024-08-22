@@ -1,0 +1,135 @@
+generator client {
+  provider        = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id            Int          @id @default(autoincrement())
+  auth0Id       String       @unique
+  email         String       @unique
+  name          String?
+  picture       String?
+  isAdmin       Boolean      @default(false)
+  isBlocked     Boolean      @default(false)
+  collections   Collection[]
+  comments      Comment[]
+  likes         Like[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+// Collection model
+model Collection {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  description        String
+  imageUrl           String?
+  category           Category @relation(fields: [categoryId], references: [id])
+  categoryId         Int
+  user               User     @relation(fields: [userId], references: [id])
+  userId             Int
+  items              Item[]
+  customString1State Boolean  @default(false)
+  customString1Name  String?
+  customString2State Boolean  @default(false)
+  customString2Name  String?
+  customString3State Boolean  @default(false)
+  customString3Name  String?
+  customInt1State    Boolean  @default(false)
+  customInt1Name     String?
+  customInt2State    Boolean  @default(false)
+  customInt2Name     String?
+  customInt3State    Boolean  @default(false)
+  customInt3Name     String?
+  customText1State   Boolean  @default(false)
+  customText1Name    String?
+  customText2State   Boolean  @default(false)
+  customText2Name    String?
+  customText3State   Boolean  @default(false)
+  customText3Name    String?
+  customBool1State   Boolean  @default(false)
+  customBool1Name    String?
+  customBool2State   Boolean  @default(false)
+  customBool2Name    String?
+  customBool3State   Boolean  @default(false)
+  customBool3Name    String?
+  customDate1State   Boolean  @default(false)
+  customDate1Name    String?
+  customDate2State   Boolean  @default(false)
+  customDate2Name    String?
+  customDate3State   Boolean  @default(false)
+  customDate3Name    String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+// Item model
+model Item {
+  id           Int       @id @default(autoincrement())
+  name         String
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  collectionId Int
+  tags         Tag[]
+  comments     Comment[]
+  likes        Like[]
+  customString1 String?
+  customString2 String?
+  customString3 String?
+  customInt1    Int?
+  customInt2    Int?
+  customInt3    Int?
+  customText1   String?
+  customText2   String?
+  customText3   String?
+  customBool1   Boolean?
+  customBool2   Boolean?
+  customBool3   Boolean?
+  customDate1   DateTime?
+  customDate2   DateTime?
+  customDate3   DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+// Category model
+model Category {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  collections Collection[]
+}
+
+// Tag model
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  items Item[]
+}
+
+// Comment model
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  item      Item     @relation(fields: [itemId], references: [id])
+  itemId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Like model
+model Like {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  item      Item     @relation(fields: [itemId], references: [id])
+  itemId    Int
+  createdAt DateTime @default(now())
+
+  @@unique([userId, itemId])
+}
