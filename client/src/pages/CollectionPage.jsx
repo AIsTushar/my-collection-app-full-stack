@@ -1,4 +1,4 @@
-import Button from "../components/Button/Button";
+// import Button from "../components/Button/Button";
 import Card from "../components/Card";
 import { Link, useLoaderData } from "react-router-dom";
 
@@ -16,10 +16,10 @@ function CollectionPage() {
       <div className="flex flex-col items-center justify-center h-56 bg-cover">
         <h1 className="text-3xl mb-2">{data.name}</h1>
         <p className="text-lg text-gray-500">{data.user.name}</p>
-        <div className="flex gap-2 mt-6">
+        {/* <div className="flex gap-2 mt-6">
           <Button design="edit">Edit</Button>
           <Button design="delete">Delete</Button>
-        </div>
+        </div> */}
       </div>
       <hr className="h-px my-6 bg-gray-200 border-0 dark:bg-gray-400" />
       <div className="flex flex-col sm:flex-row min-h-[100vh]">
